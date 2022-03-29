@@ -13,17 +13,20 @@ maalissa = [0, 0, 0, 0]
 # syönti -> uusi -> liike
 
 while (vuorot < 50):
+    # käy läpi pelaajat
     for pelaaja in pelaajat:
-
+        # Käytettävissä olevat nappulat, niiden paikat ja muut pelaajat
         nappulat = np.count_nonzero(lauta[pelaaja, :])
         paikat = np.where(lauta[pelaaja,:] == 1)[0]
         print(paikat)
         if not any(paikat):
             paikat = [0, 0, 0, 0]
-        heitto = noppa()
         muut_pelaajat = list(pelaajat)
         muut_pelaajat.remove(pelaaja)
-
+        
+        heitto = noppa()
+        
+        # Kutosella voi päästä alkupaikasta, mutta jos on syötävä nappula se syödään
         if heitto == 6:
             for nappula in paikat:
                 # tarkista syönti
@@ -44,14 +47,14 @@ while (vuorot < 50):
                     lauta[pelaaja, pelaaja*8] = 0
                     lauta[pelaaja, pelaaja*8 + heitto] = 1
                     break
-
+                
+                # liiku
                 else:
-                    # print(np.max(paikat) + heitto)
-
+                    # maali
                     if np.max(paikat) + heitto >= 50:
                         maalissa[pelaaja] += 1
                         lauta[pelaaja, np.max(paikat)] = 0
-                        
+                    # muu liike
                     else:
                         lauta[pelaaja, np.max(paikat)] = 0
                         lauta[pelaaja, np.max(paikat) + heitto] = 1
